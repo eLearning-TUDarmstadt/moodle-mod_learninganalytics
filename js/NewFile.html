@@ -1,0 +1,248 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+      Google Visualization API Sample
+    </title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['controls']});
+    </script>
+    <script type="text/javascript">
+    
+      function drawVisualization() {
+		control1 = createDashboard1();
+		control2 = createDashboard2();
+		
+		google.visualization.events.addListener(control1, 'statechange', function() {
+			control2.setState(control1.getState());
+			control2.draw();
+		});
+	  }
+	  
+	  function createDashboard1() {
+        // Prepare the data.
+        var data = google.visualization.arrayToDataTable([
+          ['Name', 'Age'],
+          ['Michael' , 12],
+          ['Elisa', 20],
+          ['Robert', 7],
+          ['John', 54],
+          ['Jessica', 22],
+          ['Aaron', 3],
+          ['Margareth', 42],
+          ['Miranda', 33]
+        ]);
+          
+        // Define a StringFilter control for the 'Name' column
+        var stringFilter = new google.visualization.ControlWrapper({
+          'controlType': 'StringFilter',
+          'containerId': 'control1',
+          'options': {
+            'filterColumnLabel': 'Name'
+          }
+        });
+        
+        // Define a table visualization
+        var table = new google.visualization.ChartWrapper({
+          'chartType': 'Table',
+          'containerId': 'chart1',
+          'options': {'height': '13em', 'width': '20em'}
+        });
+        
+        // Create the dashboard.
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).
+          // Configure the string filter to affect the table contents
+          bind(stringFilter, table).
+          // Draw the dashboard
+          draw(data);
+          
+        return stringFilter;
+      }
+      
+	  function createDashboard2() {
+        // Prepare the data.
+        var data = google.visualization.arrayToDataTable([
+          ['Fruit', 'Calories'],
+          ['Apple' , 12],
+          ['Banana', 20],
+          ['Kiwi', 7],
+          ['Peach', 54],
+          ['Watermelon', 22],
+          ['Raspberry', 3],
+          ['Strawberry', 42],
+          ['Orange', 33]
+        ]);
+        
+        // Define a StringFilter control for the 'Name' column
+        var stringFilter = new google.visualization.ControlWrapper({
+          'controlType': 'StringFilter',
+          'containerId': 'control2',
+          'options': {
+            'filterColumnLabel': 'Fruit'
+          }
+        });
+        
+        // Define a table visualization
+        var table = new google.visualization.ChartWrapper({
+          'chartType': 'Table',
+          'containerId': 'chart2',
+          'options': {'height': '13em', 'width': '20em'}
+        });
+        
+        // Create the dashboard.
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).
+          // Configure the string filter to affect the table contents
+          bind(stringFilter, table).
+          // Draw the dashboard
+          draw(data);
+          
+        return stringFilter;
+      }      
+ 
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+    <div id="dashboard">
+      <table>
+        <tr style='vertical-align: top'>
+          <td style='width: 300px; font-size: 0.9em;'>
+            <div id="control1"></div>
+            <div id="control2" style="display:none"></div>
+          </td>
+          <td style='width: 600px'>
+            <div style="float: left;" id="chart1"></div>
+            <div style="float: left;" id="chart2"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+=======
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+      Google Visualization API Sample
+    </title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['controls']});
+    </script>
+    <script type="text/javascript">
+    
+      function drawVisualization() {
+		control1 = createDashboard1();
+		control2 = createDashboard2();
+		
+		google.visualization.events.addListener(control1, 'statechange', function() {
+			control2.setState(control1.getState());
+			control2.draw();
+		});
+	  }
+	  
+	  function createDashboard1() {
+        // Prepare the data.
+        var data = google.visualization.arrayToDataTable([
+          ['Name', 'Age'],
+          ['Michael' , 12],
+          ['Elisa', 20],
+          ['Robert', 7],
+          ['John', 54],
+          ['Jessica', 22],
+          ['Aaron', 3],
+          ['Margareth', 42],
+          ['Miranda', 33]
+        ]);
+          
+        // Define a StringFilter control for the 'Name' column
+        var stringFilter = new google.visualization.ControlWrapper({
+          'controlType': 'StringFilter',
+          'containerId': 'control1',
+          'options': {
+            'filterColumnLabel': 'Name'
+          }
+        });
+        
+        // Define a table visualization
+        var table = new google.visualization.ChartWrapper({
+          'chartType': 'Table',
+          'containerId': 'chart1',
+          'options': {'height': '13em', 'width': '20em'}
+        });
+        
+        // Create the dashboard.
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).
+          // Configure the string filter to affect the table contents
+          bind(stringFilter, table).
+          // Draw the dashboard
+          draw(data);
+          
+        return stringFilter;
+      }
+      
+	  function createDashboard2() {
+        // Prepare the data.
+        var data = google.visualization.arrayToDataTable([
+          ['Fruit', 'Calories'],
+          ['Apple' , 12],
+          ['Banana', 20],
+          ['Kiwi', 7],
+          ['Peach', 54],
+          ['Watermelon', 22],
+          ['Raspberry', 3],
+          ['Strawberry', 42],
+          ['Orange', 33]
+        ]);
+        
+        // Define a StringFilter control for the 'Name' column
+        var stringFilter = new google.visualization.ControlWrapper({
+          'controlType': 'StringFilter',
+          'containerId': 'control2',
+          'options': {
+            'filterColumnLabel': 'Fruit'
+          }
+        });
+        
+        // Define a table visualization
+        var table = new google.visualization.ChartWrapper({
+          'chartType': 'Table',
+          'containerId': 'chart2',
+          'options': {'height': '13em', 'width': '20em'}
+        });
+        
+        // Create the dashboard.
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).
+          // Configure the string filter to affect the table contents
+          bind(stringFilter, table).
+          // Draw the dashboard
+          draw(data);
+          
+        return stringFilter;
+      }      
+ 
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+    <div id="dashboard">
+      <table>
+        <tr style='vertical-align: top'>
+          <td style='width: 300px; font-size: 0.9em;'>
+            <div id="control1"></div>
+            <div id="control2" style="display:none"></div>
+          </td>
+          <td style='width: 600px'>
+            <div style="float: left;" id="chart1"></div>
+            <div style="float: left;" id="chart2"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+>>>>>>> ceb8c11f23d59d0c85037521adb5a0dab9d84fc8
+</html>

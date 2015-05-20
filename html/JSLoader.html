@@ -1,0 +1,79 @@
+<DOCTYPE html>
+    <html>
+        <head>
+
+            <meta http-equiv="content-type" content="text/html; charset=utf8">
+            <link href="/mod/learninganalytics/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/mod/learninganalytics/css/bootstrap-theme.min.css" rel="stylesheet">
+            <script src="/mod/learninganalytics/js/jquery-2.1.1.min.js"></script>
+            <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["table", "corechart", "controls", "treemap"]}]}'></script>
+            <script src="/mod/learninganalytics/js/main.js"></script>
+            <script src="/mod/learninganalytics/js/gui.js"></script>
+            <script src="/mod/learninganalytics/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="/mod/learninganalytics/css/tc.css"/>
+            <link rel="stylesheet" type="text/css" href="/mod/learninganalytics/css/ownStyles.css"/>
+            <script type="text/javascript" src="/mod/learninganalytics/js/tc.js"></script>
+        </head>
+
+        <body>
+            <div id='learninganalytics' style="width: 75%; margin-left:30px; margin-top:30px; margin-right:30px;"></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Implementierte Moodle-Plugins</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Abstimmung</LI>
+                        <li>Forum</LI>
+                        <li>Gruppenabstimmung</LI>
+                        <li>Aufgabe</LI>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Fehlende Moodle-Plugins</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Adobe Connect</LI>
+                        <li>Chat</LI>
+                        <li>Courseboard</LI>
+                        <li>Datenbank</LI>
+                        <li>Feedback</LI>
+                        <li>Glossar</LI>
+                        <li>Hot Question</LI>
+                        <li>HotPot</LI>
+                        <li>Lektion</LI>
+                        <li>Lernpaket</LI>
+                        <li>Mindmap</LI>
+                        <li>Spiele</LI>
+                        <li>Galgenmännchen</LI>
+                        <li>Kreuzworträtsel</LI>
+                        <li>Suchrätsel</LI>
+                        <li>Wer wird Millionär</LI>
+                        <li>Sudoku</LI>
+                        <li>Schlangen und Leitern</LI>
+                        <li>Verstecktes Bild</LI>
+                        <li>Buch mit Fragen</LI>
+                        <li>Test</LI>
+                        <li>Webreg-Gruppenwahl</LI>
+                        <li>Wiki</LI>
+                        <li>Workshop</LI>
+                        <li>Buch</LI>
+                        <li>Datei</LI>
+                        <li>elTUCaN ressource</LI>
+                        <li>Link/URL</LI>
+                        <li>Materialienspeicher</LI>
+                        <li>OpenLearnWare</LI>
+                        <li>Textfeld</LI>
+                        <li>Textseite</LI>
+                        <li>Verzeichnis</LI>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                //GUI.course = 2361;
+                //GUI.div = 'learninganalytics';
+                //GUI.draw();
+                GUIcontroller.course = 64;
+                GUIcontroller.parentDiv = 'learninganalytics';
+                GUIcontroller.draw();
+                //initialiseGUI('learninganalytics', 2361);
+            </script>
