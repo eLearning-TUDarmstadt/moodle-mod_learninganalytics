@@ -8,16 +8,31 @@
 ini_set('display_errors', 'On');
 error_reporting(E_ALL | E_STRICT);
 
-require_once '../../../config.php';
+//require_once '../../../config.php';
+//GLOBAL $CFG, $PAGE, $CONTEXT;
+//require_login();
+//$PAGE->set_context($CONTEXT);
 
-require_login();
+if (isset($_REQUEST['courseid'])) {
+    require_once '../../../config.php';
+    //require_login();
+    global $PAGE;
+    $PAGE->set_context(context_course::instance($_REQUEST['courseid']));
+    $cloud = new activityCloud($_REQUEST['courseid']);
+    echo $cloud->getCloud();
+}
 
-GLOBAL $CFG, $PAGE, $CONTEXT;
+if (isset($_REQUEST['getJSONforCourse'])) {
+    $courseid = $_REQUEST['getJSONforCourse'];
 
-$PAGE->set_context($CONTEXT);
+    require_once '../../../config.php';
+    //require_login();
+    global $PAGE;
+    $PAGE->set_context(context_course::instance($courseid));
 
-$cloud = new activityCloud(64);
-$cloud->printCloud();
+    $cloud = new activityCloud($courseid);
+    echo $cloud->dataAsJSON();
+}
 
 class activityCloud {
 
@@ -30,21 +45,59 @@ class activityCloud {
     private $FONT_SIZE_MIN = 40;
     private $STEPS = 5;
     private $STEP_WIDTH = 0;
+    private $COLORS = [
+        //"#DFE2DB",
+        "#FFF056",
+        "#C63D0F",
+        "#FDF3E7",
+        "#7E8F7C",
+        //"#005A31",
+        "#A8CD1B",
+        "#CBE32D",
+        "#F3FAB6",
+        "#558C89",
+        "#74AFAD",
+        "#D9853B",
+        "#ECECEA",
+        "#DE1B1B",
+        "#F6F6F6",
+        "#E9E581",
+        "#7D1935",
+        "#4A96AD",
+        "#F5F3EE",
+        "#E44424",
+        "#67BCDB",
+        "#A2AB58",
+        "#6DBDD6",
+        "#B71427",
+        "#FFE658",
+        "#118C4E",
+        "#C1E1A6",
+        "#FF9009",
+        "#DF3D82"
+    ];
 
     public function __construct($courseid) {
+        GLOBAL $CFG, $PAGE, $CONTEXT;
+        //$this->printArray($CFG);
+        //require_once '../../../config.php';
+        //$PAGE->set_context($CONTEXT);
+
         $this->courseid = $courseid;
 
         $log_manager = get_log_manager();
         $readers = $log_manager->get_readers();
+
         $this->store = $readers['logstore_standard'];
 
+
+        $this->STEP_WIDTH = ($this->FONT_SIZE_MAX - $this->FONT_SIZE_MIN) / 5;
+        
+        
         $this->modinfo = get_fast_modinfo($this->courseid);
-
         $this->data = $this->getData();
-
         $this->sumOfEvents = $this->calculateSumOfEvents();
         
-        $this->STEP_WIDTH = ($this->FONT_SIZE_MAX - $this->FONT_SIZE_MIN) / 5;
     }
 
     private function calculateSumOfEvents() {
@@ -56,11 +109,11 @@ class activityCloud {
     }
 
     private function getData() {
-        $selectwhere = "courseid=" . $this->courseid . " AND target = 'course_module' AND component LIKE 'mod_%'";
+        $selectwhere = "courseid=" . $this->courseid . " AND component LIKE 'mod_%'"; // AND target = 'course_module' ";
         $params = array();
         $order = "timecreated DESC";
         $limitfrom = 0;
-        $limitnum = 999999999999999999999;
+        $limitnum = 100;
 
         $events = $this->store->get_events_select($selectwhere, $params, $order, $limitfrom, $limitnum);
 
@@ -70,36 +123,60 @@ class activityCloud {
         foreach ($events as $id => $event) {
             //$this->printArray($event);
             $cmid = $event->contextinstanceid;
-            $cm = $this->modinfo->get_cm($cmid);
+            try {
+                if (!empty($cmid)) {
+                    $cm = $this->modinfo->get_cm($cmid);
+                    // Is there already an entry in the data array for this activity
+                    if (isset($data[$cmid])) {
+                        $data[$cmid]['numberOfEvents'] += 1;
+                    } else {
+                        $entry = array();
+                        $entry['cmid'] = $cmid;
+                        $entry['name'] = $cm->name;
+                        $entry['numberOfEvents'] = 1;
+                        $entry['iconURL'] = $cm->get_icon_url()->out();
+                        $entry['moodleURL'] = $event->get_url()->out();
+                        $entry['formattedOutput'] = $cm->get_formatted_name();
+                        $entry['color'] = $this->getColor($cm->module);
+                        $data[$cmid] = $entry;
+                    }
+                }
 
-            // Is there already an entry in the data array for this activity
-            if (isset($data[$cmid])) {
-                $data[$cmid]['numberOfEvents'] += 1;
-            } else {
-                $entry = array();
-                $entry['cmid'] = $cmid;
-                $entry['name'] = $cm->name;
-                $entry['numberOfEvents'] = 1;
-                $entry['iconURL'] = $cm->get_icon_url()->out();
-                $entry['moodleURL'] = $event->get_url()->out();
-                $entry['formattedOutput'] = $cm->get_formatted_name();
-
-                $data[$cmid] = $entry;
+                //$url = $event->get_url();
+                //pr($event);
+            } catch (Exception $exc) {
+                //echo $exc->getTraceAsString();
             }
-            //$url = $event->get_url();
-            //pr($event);
         }
         return $data;
     }
 
+    /**
+     * Returns a color by an integer
+     * 
+     * @param int $module the module type id
+     * @return hexadecimal color, for example #FFFFFF
+     */
+    private function getColor($module) {
+        if (isset($this->COLORS[$module])) {
+            return $this->COLORS[$module];
+        } else {
+            return $this->COLORS[0];
+        }
+    }
+
     public function dataAsJSON() {
+        if (empty($this->data)) {
+            $this->data = $this->getData();
+        }
+
         $return = array();
         foreach ($this->data as $id => $data) {
             $weigth = $data['numberOfEvents'] / $this->sumOfEvents;
             //$size = $this->FONT_SIZE_MIN + $weigth * $this->STEP_WIDTH;
             $size = $weigth * $this->FONT_SIZE_MAX;
             $data['size'] = $size;
-            if($size > 0) {
+            if ($size > 0) {
                 $return[] = $data;
             }
         }
@@ -107,97 +184,49 @@ class activityCloud {
         return json_encode($return);
     }
 
-    public function printCloud() {
+    public function getCloud() {
         global $CFG;
-        $buffer = "";
-        $buffer .= '
-                <!DOCTYPE html>
-                <meta charset="utf-8">
-                <style>
 
-                text {
-                  font: 10px sans-serif;
-                }
 
-                </style>
-                <body>
-                <script src="' . $CFG->wwwroot .'/mod/learninganalytics/js/d3.v3.min.js"></script>
-                <script>
-                var diameter = 600,
-                    format = d3.format(",d"),
-                    color = d3.scale.category20c();
+        $this->modinfo = get_fast_modinfo($this->courseid);
+        $this->data = $this->getData();
+        $this->sumOfEvents = $this->calculateSumOfEvents();
 
-                var bubble = d3.layout.pack()
-                    .sort(null)
-                    .size([diameter, diameter])
-                    .padding(1.5);
-
-                var svg = d3.select("body").append("svg")
-                    .attr("width", diameter)
-                    .attr("height", diameter)
-                    .attr("class", "bubble");
-                    
-                var json = ' . $this->dataAsJSON() . ';
-
-                //d3.json(json, 
-                var process = function(error, root) {
-                  var node = svg.selectAll(".node")
-                      .data(bubble.nodes(classes(root))
-                      .filter(function(d) { return !d.children; }))
-                    .enter().append("g")
-                      .attr("class", "node")
-                      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-                  node.append("title")
-                      .text(function(d) { return d.className + ": " + format(d.value); });
-
-                  node.append("circle")
-                      .attr("r", function(d) { return d.r; })
-                      .style("fill", function(d) { return color(d.packageName); });
-                 
-                    /*
-                  var innerSVG = node.append("g")
-                        .attr("transform", function(d) { return "translate(" + 0.25*1,8*d.r + ")"; })
-                        .attr("width", function(d) { return 1.8*d.r; })
-                        .attr("heigth", function(d) { return 1.8*d.r; });
-                  */
-                  node.append("text")
-                        .attr("id", function (d) { return "modTitle_" + d.originData.cmid;})
-                        .style("text-anchor", "middle")
-                        .text(function(d) { console.log(d); return d.className.substring(0, d.r / 3); });
-                   
-                  node.append("image")
-                        .attr("xlink:href", function (d) { return d.originData.iconURL;})
-                        .attr("x", function(d) {
-                            var text = d3.select("#modTitle_" + d.originData.cmid);
-                            console.log(text[0][0]);
-                            var width = text[0][0].clientWidth;
-                            return -0.5*width - 28;
-                            }
-                        )
-                        .attr("y", -24)
-                        .attr("height", 24)
-                        .attr("width", 24);
-               }
-                process(null, json);
-                // Returns a flattened hierarchy containing all leaf nodes under the root.
-                function classes(root) {
-                  var classes = [];
-
-                  function recurse(name, node) {
-                    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-                    else classes.push({packageName: name, className: node.name, value: node.size, originData: node});
-                  }
- 
-                  recurse(null, root);
-                  return {children: classes};
-                }
-
-                d3.select(self.frameElement).style("height", diameter + "px");
-
-                </script>';
+        $buffer = '
+            
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/d3.v3.min.js"></script>
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/jquery-2.1.4.min.js"></script>
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/bootstrap.min.js"></script>
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/rest/bubbles.js"></script>
+        <script>
+            run(' . $this->dataAsJSON() . ');
+        </script>'
+        ;
         //$this->printHTML($buffer);
-        echo $buffer;
+        //echo $buffer;
+        return $buffer;
+    }
+
+    public static function getCloudLoader() {
+        global $CFG;
+        $buffer = '
+            
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/d3.v3.min.js"></script>
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/jquery-2.1.4.min.js"></script>
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/bootstrap.min.js"></script>
+        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/rest/bubbles.js"></script>
+        <script>
+            $.get( "/mod/learninganalytics/rest/test.php?getJSONforCourse=COURSEID", function( data ) {
+                json = JSON.parse(data);
+                run(json);
+            });
+        </script>
+        <div id="learninganalytics_div"></div>
+        '
+        ;
+        //$this->printHTML($buffer);
+        //echo $buffer;
+        return $buffer;
     }
 
     public function printHTML($var) {

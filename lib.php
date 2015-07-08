@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 /** learninganalytics_MAX_NAME_LENGTH = 50 */
-define("learninganalytics_MAX_NAME_LENGTH", 50);
+//define("learninganalytics_MAX_NAME_LENGTH", 50);
 
 /**
  * @uses learninganalytics_MAX_NAME_LENGTH
@@ -34,6 +34,7 @@ define("learninganalytics_MAX_NAME_LENGTH", 50);
  * @return string
  */
 function get_learninganalytics_name($learninganalytics) {
+    /*
     $name = strip_tags(format_string($learninganalytics->intro,true));
     if (core_text::strlen($name) > learninganalytics_MAX_NAME_LENGTH) {
         $name = core_text::substr($name, 0, learninganalytics_MAX_NAME_LENGTH)."...";
@@ -45,6 +46,9 @@ function get_learninganalytics_name($learninganalytics) {
     }
 
     return $name;
+     
+     */
+    return $learninganalytics->intro;
 }
 /**
  * Given an object containing all the necessary data,
@@ -63,9 +67,12 @@ function learninganalytics_add_instance($learninganalytics) {
 	$data->course = $learninganalytics->course;
 	$data->name = "LearningAnalytics";
 	
-	$filename = $CFG->dirroot . "/mod/learninganalytics/html/JSLoader.html";
-	$content =  file_get_contents($filename);
-	$data->intro = str_replace('COURSE', $COURSE->id, $content);
+	//$filename = $CFG->dirroot . "/mod/learninganalytics/html/JSLoader.html";
+	//$content =  file_get_contents($filename);
+        require_once('rest/test.php');
+        $html = activityCloud::getCloudLoader();
+        $data->intro = str_replace('COURSEID', $COURSE->id, $html);
+	//$data->intro = str_replace('COURSE', $COURSE->id, $content);
 	$data->introformat = 0;
 	$data->timemodified = time();
 	//echo "<pre>".print_r($CFG, true)."</pre>";
@@ -127,7 +134,7 @@ function learninganalytics_delete_instance($id) {
  * @return cached_cm_info|null
  */
 function learninganalytics_get_coursemodule_info($coursemodule) {
-    global $DB;
+    global $DB, $CFG, $COURSE;
 
     if ($learninganalytics = $DB->get_record('learninganalytics', array('id'=>$coursemodule->instance), 'id, name, intro, introformat')) {
         if (empty($learninganalytics->name)) {
@@ -137,7 +144,22 @@ function learninganalytics_get_coursemodule_info($coursemodule) {
         }
         $info = new cached_cm_info();
         // no filtering hre because this info is cached and filtered later
-        $info->content = format_module_intro('learninganalytics', $learninganalytics, $coursemodule->id, false);
+        //$info->content = format_module_intro('learninganalytics', $learninganalytics, $coursemodule->id, false);
+        
+        //require_once $CFG->dirroot . '/mod/learninganalytics/rest/test.php';
+        //$cloud = new \activityCloud($COURSE->id);
+        //$cloud = new activityCloud(64);
+        //$cloud->printArray($cloud);
+        //$cloud->printArray($cloud->getCloud());
+        /*
+        $html = "<div id='learninganalytics_div'></div><script src='".$CFG->wwwroot."/mod/learninganalytics/js/jquery-2.1.1.min.js'></script><script>"
+                . '$.get( "'.$CFG->wwwroot.'/mod/learninganalytics/rest/test.php?courseid='.$COURSE->id.'", function( data ) {
+                            $( "#learninganalytics_div" ).html( data );
+                          });
+                    '
+                . "</script>";
+        */
+        $info->content = $learninganalytics->intro;
         $info->name  = $learninganalytics->name;
         return $info;
     } else {
