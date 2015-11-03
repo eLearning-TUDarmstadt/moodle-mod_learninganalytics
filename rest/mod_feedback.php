@@ -120,4 +120,3 @@ class mod_feedback extends mod {
     }
 }
 // end of mod_feedback
-?>

@@ -50,4 +50,3 @@ class mod_page extends mod
 
 
 } // end of mod_page
-?>

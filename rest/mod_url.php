@@ -50,4 +50,3 @@ class mod_url extends mod
 
 
 } // end of mod_workshop
-?>

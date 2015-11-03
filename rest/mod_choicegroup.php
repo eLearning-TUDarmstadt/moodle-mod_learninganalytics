@@ -235,6 +235,4 @@ class mod_choicegroup extends mod {
         //echo "<pre>".print_r($result, true)."</pre>";
         return $result;
     }
-
 }
-?>

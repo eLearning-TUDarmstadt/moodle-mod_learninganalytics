@@ -198,5 +198,3 @@ class observer {
 
 }
 
-// end of observer
-?>

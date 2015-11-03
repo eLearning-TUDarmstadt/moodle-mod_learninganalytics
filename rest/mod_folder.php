@@ -50,4 +50,3 @@ class mod_folder extends mod
 
 
 } // end of mod_assign
-?>

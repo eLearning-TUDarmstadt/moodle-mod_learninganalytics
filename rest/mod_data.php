@@ -50,4 +50,3 @@ class mod_data extends mod
 
 
 } // end of mod_assign
-?>

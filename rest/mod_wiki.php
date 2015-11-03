@@ -50,4 +50,3 @@ class mod_wiki extends mod
 
 
 } // end of mod_assign
-?>

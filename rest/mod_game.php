@@ -44,4 +44,3 @@ class mod_game extends mod
 
 		 /*** Attributes: ***/
 } // end of mod_choice
-?>

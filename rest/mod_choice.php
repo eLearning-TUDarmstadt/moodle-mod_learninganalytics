@@ -99,5 +99,3 @@ class mod_choice extends mod
         return $result;
     }
 } // end of mod_choice
-
-?>

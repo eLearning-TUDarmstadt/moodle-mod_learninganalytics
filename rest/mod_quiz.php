@@ -50,4 +50,3 @@ class mod_quiz extends mod
 
 
 } // end of mod_quiz
-?>

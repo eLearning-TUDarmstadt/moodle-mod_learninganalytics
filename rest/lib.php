@@ -45,5 +45,3 @@ function UnixTimeStampToGoogleDatetimeString($timestamp) {
     $string = 'Date(' . date('Y,', $timestamp) . $month . date(', d, H, i, s', $timestamp) . ')';
     return $string;
 }
-
-?>

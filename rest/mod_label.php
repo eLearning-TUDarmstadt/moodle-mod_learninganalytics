@@ -50,4 +50,3 @@ class mod_label extends mod
 
 
 } // end of mod_assign
-?>

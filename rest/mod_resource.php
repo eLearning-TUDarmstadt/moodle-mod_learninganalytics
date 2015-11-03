@@ -50,4 +50,3 @@ class mod_resource extends mod
 
 
 } // end of mod_resource
-?>

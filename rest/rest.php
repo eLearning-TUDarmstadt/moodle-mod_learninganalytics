@@ -41,5 +41,3 @@ function detailedModView($courseID, $modName, $instance = -1, $function = false)
             }
         }
 }
-
-?>

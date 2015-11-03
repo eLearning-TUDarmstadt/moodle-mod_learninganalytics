@@ -149,4 +149,3 @@ class mod_forum extends mod {
 
 // end of mod_forum
 
-?>

@@ -50,4 +50,3 @@ class mod_lesson extends mod
 
 
 } // end of mod_lesson
-?>

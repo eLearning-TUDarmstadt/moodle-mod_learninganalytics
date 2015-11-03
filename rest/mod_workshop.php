@@ -50,4 +50,3 @@ class mod_workshop extends mod
 
 
 } // end of mod_workshop
-?>

@@ -146,4 +146,3 @@ class mod_assign extends mod
         return $result;
     }
 } // end of mod_assign
-?>

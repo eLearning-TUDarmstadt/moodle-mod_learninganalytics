@@ -50,4 +50,3 @@ class mod_checklist extends mod
 
 
 } // end of mod_assign
-?>

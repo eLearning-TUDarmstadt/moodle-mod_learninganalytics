@@ -50,4 +50,3 @@ class mod_adobeconnect extends mod
 
 
 } // end of mod_assign
-?>

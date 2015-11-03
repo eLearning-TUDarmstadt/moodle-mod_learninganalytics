@@ -50,4 +50,3 @@ class mod_groupreg extends mod
 
 
 } // end of mod_assign
-?>

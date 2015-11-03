@@ -50,4 +50,3 @@ class mod_glossary extends mod
 
 
 } // end of mod_glossary
-?>

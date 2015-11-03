@@ -5,8 +5,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-ini_set('display_errors', 'On');
-error_reporting(E_ALL | E_STRICT);
+//ini_set('display_errors', 'On');
+
+// Melde alle Fehler außer E_NOTICE
+error_reporting(E_ALL & ~E_NOTICE);
+
+// To get rid of the missing $CFG->version error
+setVersion();
 
 //require_once '../../../config.php';
 //GLOBAL $CFG, $PAGE, $CONTEXT;
@@ -32,6 +37,16 @@ if (isset($_REQUEST['getJSONforCourse'])) {
 
     $cloud = new activityCloud($courseid);
     echo $cloud->dataAsJSON();
+}
+
+function setVersion() {
+    /*
+    global $CFG;
+    
+    require_once $CFG->dirroot . "/version.php";
+    echo "Version:  ". $version;
+     
+     */
 }
 
 class activityCloud {
@@ -92,12 +107,11 @@ class activityCloud {
 
 
         $this->STEP_WIDTH = ($this->FONT_SIZE_MAX - $this->FONT_SIZE_MIN) / 5;
-        
-        
+
+
         $this->modinfo = get_fast_modinfo($this->courseid);
         $this->data = $this->getData();
         $this->sumOfEvents = $this->calculateSumOfEvents();
-        
     }
 
     private function calculateSumOfEvents() {
@@ -221,7 +235,7 @@ class activityCloud {
                 run(json);
             });
         </script>
-        <div id="learninganalytics_div"></div>
+         <div id="learninganalytics_div"></div>  
         '
         ;
         //$this->printHTML($buffer);
@@ -245,5 +259,3 @@ class activityCloud {
     }
 
 }
-
-?>

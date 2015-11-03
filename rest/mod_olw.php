@@ -50,4 +50,3 @@ class mod_olw extends mod
 
 
 } // end of mod_assign
-?>
