@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class restore_assignment_activity_task extends restore_activity_task {
+class restore_learninganalytics_activity_task extends restore_activity_task {
     /**
      * Define (add) particular settings this activity can have
      */
