@@ -58,5 +58,3 @@ if ($id) {
 require_login($course, true, $cm);
 
 redirect("$CFG->wwwroot/course/view.php?id=$course->id");
-
-

@@ -31,5 +31,3 @@ $id = required_param('id',PARAM_INT);   // course
 $PAGE->set_url('/mod/learninganalytics/index.php', array('id'=>$id));
 
 redirect("$CFG->wwwroot/course/view.php?id=$id");
-
-
