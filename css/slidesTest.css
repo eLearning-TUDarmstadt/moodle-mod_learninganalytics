@@ -1,0 +1,43 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15.12.2015, 11:01:00
+    Author     : an84nusy
+*/
+
+.slides-container {
+    background-color: #009900;
+    width: 450px;
+    height: 450px;
+    overflow: hidden;
+    position: absolute;
+    //float: left;
+}
+
+.slide {
+    //float: left;
+    margin-right: 2em;
+    margin-bottom: 2em;
+    background-color: greenyellow;
+    padding: 2em;
+    height: 400px;
+    width: 400px;
+    border: 2px solid black;
+    text-align: center;
+    line-height: 100px;
+    font-size: 20px;
+    left: -500px;
+    top: 0px;
+    position: absolute;
+    //display: block;
+    box-sizing: border-box;
+}
+
+.active {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
