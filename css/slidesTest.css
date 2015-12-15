@@ -10,11 +10,12 @@ and open the template in the editor.
 
 .slides-container {
     background-color: #009900;
-    width: 450px;
-    height: 450px;
+    width: 550px;
+    height: 550px;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     //float: left;
+    //opacity: 0.3;
 }
 
 .slide {
@@ -23,8 +24,8 @@ and open the template in the editor.
     margin-bottom: 2em;
     background-color: greenyellow;
     padding: 2em;
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 500px;
     border: 2px solid black;
     text-align: center;
     line-height: 100px;

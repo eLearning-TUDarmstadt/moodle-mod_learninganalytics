@@ -224,18 +224,36 @@ class activityCloud {
     public static function getCloudLoader() {
         global $CFG;
         $buffer = '
-            
-        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/d3.v3.min.js"></script>
-        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/jquery-2.1.4.min.js"></script>
-        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/bootstrap.min.js"></script>
-        <script src="' . $CFG->wwwroot . '/mod/learninganalytics/rest/bubbles.js"></script>
-        <script>
-            $.get( "/mod/learninganalytics/rest/test.php?getJSONforCourse=COURSEID", function( data ) {
-                json = JSON.parse(data);
-                run(json);
-            });
-        </script>
-         <div id="learninganalytics_div"></div>  
+        <html>
+            <head>
+                <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/d3.v3.min.js"></script>
+                <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/jquery-2.1.4.min.js"></script>
+                <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/bootstrap.min.js"></script>
+                <script src="' . $CFG->wwwroot . '/mod/learninganalytics/rest/bubbles.js"></script>
+                <script>
+                    $.get( "/mod/learninganalytics/rest/test.php?getJSONforCourse=COURSEID", function( data ) {
+                        json = JSON.parse(data);
+                        run(json);
+                    });
+                </script>
+                <link rel="stylesheet" href="' . $CFG->wwwroot . '/mod/learninganalytics/css/slidesTest.css">
+                <script src="' . $CFG->wwwroot . '/mod/learninganalytics/js/sliderJS.js"></script>
+            </head>
+            <body>
+                <div id="learninganalytics_div">
+                    <div id="hallo" class="click">click to show hallo</div>
+                    <div id="hi" class="click">click to show hi</div>
+                    <div id="test" class="click">click to show test</div>
+                    <div id="bubbles" class="click">click to show bubbles</div>
+                    <div class="slides-container">
+                        <div id="bubbles-clicked" class="slide"></div>
+                        <div id="hallo-clicked" class="slide">Hallo</div>
+                        <div id="hi-clicked" class="slide">Hi</div>
+                        <div id="test-clicked" class="slide">Test</div>
+                    </div>
+                </div>
+            </body>
+        </html>
         '
         ;
         //$this->printHTML($buffer);

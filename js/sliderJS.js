@@ -21,10 +21,10 @@ $(document).ready(function() {
             return;
         } else {
             $('.active').animate({
-                left: '500px',
+                left: '600px',
             }, 300);
             $('.active').animate({
-                left: '-500px',
+                left: '-600px',
             }, 0);
             
             $('#' + temp).animate({

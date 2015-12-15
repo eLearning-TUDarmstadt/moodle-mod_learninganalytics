@@ -81,7 +81,7 @@ function run(json) {
             .padding(1.5);
 
    
-    var svg = appendSVGtoDIV(d3.select("#learninganalytics_div"), diameter);
+    var svg = appendSVGtoDIV(d3.select("#bubbles-clicked"), diameter);
 
 
 //d3.json(json, 
